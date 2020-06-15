@@ -19,6 +19,7 @@ def loss(x,y,w,b):
     pred = model(x,w,b)
     loss_ = tf.keras.losses.categorical_crossentropy(y_true=y,y_pred=pred)
     return tf.reduce_mean(loss_)
+
 def grad(x,y,w,b):
     with tf.GradientTape() as tape:
         loss_ = loss(x,y,w,b)
@@ -32,8 +33,16 @@ def accuracy(x,y,w,b):
 #导入训练集和测试集
 train = pd.read_csv('fashion-mnist_train.csv')
 test = pd.read_csv('fashion-mnist_test.csv')
-# print(train.head())
-# print(test.head())
+
+
+print(train.head())
+print(test.head())
+print(train.info())
+print(test.info())
+print(train.describe())
+print(test.describe())
+print(train[train.isnull() == True].count())
+print(test[test.isnull() == True].count())
 
 #导出训练集标签值
 train_labels = train['label'].values
@@ -98,10 +107,10 @@ test_y = tf.one_hot(test_y,depth=10)
 
 
 #建立模型
-W = tf.Variable(tf.random.normal([784,10],mean=0.0,stddev=1.0,dtype=tf.float32))
+W = tf.Variable(tf.random.normal([784,10],mean=0.0,stddev=1.0,dtype=tf.float32))   #待优化变量
 B = tf.Variable(tf.zeros([10]),dtype=tf.float32)   #偏值项
 
-training_epochs = 30
+training_epochs = 20
 batch_size = 50
 learning_rate = 0.005
 
